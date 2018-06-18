@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/gh/ethereum/web3.js/dist/web3.min.js"></script>
+
+</head>
+<style>
+body {
+  background-color: rgba(136,191,232,1);
+  padding-top: 25px;
+  background: cover;
+  background-repeat: repeat-y;
+  color: #fff
+}
+</style>
+<body>
+  <div class="container">
+    <div class="row text-center">
+      <h3>Enter your Aqua Address:</h3>
+      <!-- <div class="input-group text-center"> -->
+        <input class="input-lg input" type="text" size="50" id="address" />
+        <span class="input-group-button">
+          <button class="btn btn-success btn-md" type="button" onClick="getBalance();">Get Balance</button>
+        </span>
+      <br />
+      <br />
+      <div class="row text-center">
+        <h3>Aquachain Balance <span id="output"></span></h3>
+        <!-- <h3 id="output"></h3> -->
+      </div>
+    </div>
+  </div>
+
+  <script type="text/javascript">
+      window.addEventListener('load', function () {
+          if (typeof web3 !== 'undefined') {
+              console.log('Web3 Detected! ' + web3.currentProvider.constructor.name)
+              window.web3 = new Web3(web3.currentProvider);
+          } else {
+              console.log('No Web3 Detected... using HTTP Provider')
+              window.web3 = new Web3(new Web3.providers.HttpProvider("https://c.onical.org"));
+          }
+      })
+      function getBalance() {
+          var addr, wei, balance;
+          addr = address.value;
+          try {
+              web3.eth.getBalance(addr, function (error, wei) {
+                  if (!error) {
+                      var balance = web3.fromWei(wei, 'ether');
+                      output.textContent = balance + " AQUA";
+                  }
+              });
+          } catch (err) {
+              output.textContent = err;
+          }
+      }
+  </script>
+</body>
+</html>
